@@ -1,8 +1,8 @@
-import {test, expect} from "@playwright/test";
+import { test, expect } from "@playwright/test";
 const APIUrl = 'https://api-qa-fap2026.onrender.com/api';
-test.describe('teste api lojaQA',()=>{
+test.describe('teste api lojaQA', () => {
 
-    test("get catalogo lojaQa", async ({request})=>{
+    test("get catalogo lojaQa", async ({ request }) => {
         const res = await request.get(`${APIUrl}/products`)
         // VALIDAR STATUS CODE 200
         expect(res.status()).toBe(200);
@@ -10,23 +10,23 @@ test.describe('teste api lojaQA',()=>{
         expect(res.ok).toBeTruthy();
 
         const bodyRes = await res.json();
-        expect(bodyRes[0]).toHaveProperty("_id",'6abe51a2384f04df16c614fe');
+        expect(bodyRes[0]).toHaveProperty("_id", '6abe51a2384f04df16c614fe');
         expect(bodyRes[0]).toHaveProperty("name");
         expect(typeof bodyRes[0].name).toBe('string');
     });
 
-     test("post login lojaQa", async ({request})=>{
+    test("post login lojaQa valido", async ({ request }) => {
         const res = await request.post(`${APIUrl}/login`,
             {
-                data:{
+                data: {
                     "email": "admin@system.com",
                     "password": "AdminPassword123"
                 },
-                headers:{
-                    'Content-Type':'application/json'
+                headers: {
+                    'Content-Type': 'application/json'
                 }
             });
-    
+
         // valida status 200
         expect(res.status()).toBe(200);
         // validar json
@@ -34,5 +34,19 @@ test.describe('teste api lojaQA',()=>{
         expect(resBody).toHaveProperty("token");
         expect(typeof resBody.token).toBe('string');
         expect(resBody.token.length).toBeGreaterThan(10);
-     });
+    });
+
+    test("Login lojaQA invalido", async ({ request }) => {
+        const res = await request.post(`${APIUrl}/login`,
+            {
+                data: {
+                    "email": "admin@system.com",
+                    "password": "SenhaErrada123"
+                }
+            })
+        expect(res.status()).toBe(401);
+        const errorBody = await res.json();
+        expect(errorBody.token).toBeUndefined();
+        expect(errorBody.error).toBe("Credenciais inválidas.");
+    })
 })
