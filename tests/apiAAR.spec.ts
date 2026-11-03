@@ -59,7 +59,6 @@ test.describe(
             expect(targetProd.stock).toBe(323);
             expect(targetProd.price).toBe(87.9);  
 
-
         }
         )
     }
