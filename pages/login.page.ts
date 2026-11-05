@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from "@playwright/test";
+import { Page, Locator } from "@playwright/test";
 export class LoginPage {
     readonly page: Page;
     readonly alert: Locator;
@@ -9,7 +9,6 @@ export class LoginPage {
     }
     async acessarSite() {
         await this.page.goto('https://www.saucedemo.com/');
-        await expect(this.page).toHaveTitle("Swag Labs")
     }
     async login(email:string, password:string) {
         await this.page.locator('#user-name').fill(email);

@@ -7,5 +7,11 @@
     "@playwright/test": "^1.63.0",
     "@types/node": "^26.6.2"
   },
-  "scripts": {}
+  "scripts": {
+    "test": "playwright test",
+    "test:e2e": "playwright test tests/e2e",
+    "test:api": "playwright test tests/api",
+    "test:headed": "playwright test --headed",
+    "report": "playwright show-report"
+  }
 }

@@ -1,4 +1,4 @@
-import {test, expect} from '../fixtures/auth.fixture'
+import {test, expect} from '../../fixtures/auth.fixture'
 
 test.describe('acesso area protegida - painel', ()=>{
     test('Deve acessar painel com usuario já logado', 

@@ -62,13 +62,17 @@ yarn playwright install
 
 ## Estrutura principal
 
-- `tests/` — arquivos com os cenários de teste;
+- `pages/` — Page Objects, sem validações (`expect`) dentro das páginas;
+- `fixtures/` — fixtures compartilhadas, como a sessão autenticada;
+- `tests/e2e/` — cenários de interface e fluxos completos;
+- `tests/api/` — cenários de API usando o fixture `{ request }` do Playwright;
+- `presentation/` — slides da apresentação (PDF ou link, quando disponíveis);
 - `playwright.config.ts` — configuração do Playwright;
 - `package.json` — dependências e comandos do projeto;
 - `package-lock.json` — versões exatas das dependências instaladas pelo npm;
 - `yarn.lock` — versões exatas das dependências instaladas pelo Yarn, quando presente.
 
-Por padrão, os testes são buscados na pasta `tests/` e executados no navegador Chromium, conforme definido em `playwright.config.ts`.
+Os specs estão separados por tipo dentro de `tests/`; os comandos abaixo permitem executar cada grupo. Os testes E2E usam o projeto Chromium configurado em `playwright.config.ts`.
 
 ## Execução dos testes
 
@@ -76,10 +80,17 @@ Execute todos os cenários em modo headless:
 
 ```bash
 # npm
-npx playwright test
+npm test
 
 # Yarn
-yarn playwright test
+yarn test
+```
+
+Execute somente os testes E2E ou somente os testes de API:
+
+```bash
+npm run test:e2e
+npm run test:api
 ```
 
 Execute os testes com a interface visual do navegador:
@@ -96,10 +107,10 @@ Execute um arquivo específico:
 
 ```bash
 # npm
-npx playwright test tests/nome-do-arquivo.spec.ts
+npx playwright test tests/e2e/nome-do-arquivo.spec.ts
 
 # Yarn
-yarn playwright test tests/nome-do-arquivo.spec.ts
+yarn playwright test tests/e2e/nome-do-arquivo.spec.ts
 ```
 
 Execute apenas um teste pelo título:
@@ -128,10 +139,10 @@ Após a execução, abra o relatório HTML com:
 
 ```bash
 # npm
-npx playwright show-report
+npm run report
 
 # Yarn
-yarn playwright show-report
+yarn report
 ```
 
 ## Depuração
@@ -160,7 +171,7 @@ Substitua a URL pelo endereço da aplicação que deseja explorar.
 
 ## Criando um cenário de teste
 
-Crie um arquivo com a extensão `.spec.ts` dentro da pasta `tests/`. Exemplo:
+Crie um arquivo com a extensão `.spec.ts` em `tests/e2e/` para um teste de interface ou em `tests/api/` para um teste de API. Exemplo E2E:
 
 ```typescript
 import { test, expect } from '@playwright/test';
@@ -199,8 +210,10 @@ yarn playwright test
 | --- | --- | --- |
 | `npm install` | `yarn install` | Instala as dependências do projeto |
 | `npx playwright install` | `yarn playwright install` | Instala os navegadores do Playwright |
-| `npx playwright test` | `yarn playwright test` | Executa todos os testes |
+| `npm test` | `yarn test` | Executa todos os testes |
+| `npm run test:e2e` | `yarn run test:e2e` | Executa os testes E2E |
+| `npm run test:api` | `yarn run test:api` | Executa os testes de API |
 | `npx playwright test --headed` | `yarn playwright test --headed` | Executa os testes com o navegador visível |
 | `npx playwright test --debug` | `yarn playwright test --debug` | Executa os testes em modo de depuração |
-| `npx playwright show-report` | `yarn playwright show-report` | Abre o relatório HTML |
+| `npm run report` | `yarn report` | Abre o relatório HTML |
 | `npx playwright codegen <url>` | `yarn playwright codegen <url>` | Gera código a partir da interação com uma página |
